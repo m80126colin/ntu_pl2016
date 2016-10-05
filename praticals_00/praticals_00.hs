@@ -12,7 +12,7 @@ pi2 :: Double
 pi2 = ((/) 22 7)
 
 polynomial :: Num a => [a] -> a -> a
-polynomial xs x = foldl1 ((+) . ((*) x)) xs
+polynomial xs x = foldr ( flip ((+) . (* x)) ) 0 (reverse xs)
 
 -------------------------------------------------
 --                                             --
@@ -40,11 +40,11 @@ payment :: Int -> Int
 payment week = let daysPerWeek = 5
                    hoursPerDay = 8
                    ntdPerHour  = 130
-               in foldl1 (*) [week, daysPerWeek, hoursPerDay, ntdPerHour]
+               in foldr (*) 1 [week, daysPerWeek, hoursPerDay, ntdPerHour]
 
 -- (b).
 payment2 :: Int -> Int
-payment2 week = foldl1 (*) [week, daysPerWeek, hoursPerDay, ntdPerHour]
+payment2 week = foldr (*) 1 [week, daysPerWeek, hoursPerDay, ntdPerHour]
                 where daysPerWeek = 5
                       hoursPerDay = 8
                       ntdPerHour  = 130
@@ -56,7 +56,7 @@ payment3 week | week > 19 = (round . (1.06 *) . fromIntegral) basicSalary
               where daysPerWeek = 5
                     hoursPerDay = 8
                     ntdPerHour  = 130
-                    basicSalary = foldl1 (*) [week, daysPerWeek, hoursPerDay, ntdPerHour]
+                    basicSalary = foldr (*) 1 [week, daysPerWeek, hoursPerDay, ntdPerHour]
 
 -------------------------------------------------
 --                                             --
@@ -146,7 +146,7 @@ quad3 = twice2 square
 --                                             --
 -------------------------------------------------
 -- (a).
--- type> (t -> a) -> (t -> a) -> t -> a
+-- type> Num a => (t -> a) -> (t -> a) -> t -> a
 forktimes f g x = f x * g x
 
 -- (b).
