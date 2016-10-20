@@ -2,3 +2,5 @@ __MACOSX
 .DS_STORE
 
 *.zip
+
+practicals_01_code/M*.hs
